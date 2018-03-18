@@ -1,6 +1,6 @@
 from pygraphml import Graph
 from pygraphml import GraphMLParser
-from rdf_data_processor import rdf_file_processor
+from rdf_data_processor import rdf_data_processor
 
 # Create graph
 
