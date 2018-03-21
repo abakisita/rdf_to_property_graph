@@ -1,5 +1,6 @@
+import sys
+sys.path.append("../src")
 from database_mapper import database_mapper
-
 
 if __name__ == "__main__":
     # sample data file
