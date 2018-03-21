@@ -22,6 +22,7 @@ class rdf_data_processor:
         """
         self.namespace = namespace
         self.file = file
+        print("Opening data file")
         self.f = open(file)
 
     def read_line(self):
@@ -57,7 +58,6 @@ class rdf_data_processor:
             # check if field is non-URI by checking the length before removing quotes is same or not
             # non-URI if length changes   
             if length != len(words[i]):
-                print words[i]
                 found_non_URI_field = True
         
         names = []

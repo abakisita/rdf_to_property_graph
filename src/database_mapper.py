@@ -20,10 +20,14 @@ class database_mapper(object):
         @param namespace : Namespace to extract names of entities.
         """
         # Initialize graph 
+
+        print("Initializing.... ")
+        
         self.graph = Property_Graph()
     
         self.rdf_data_processor_ = rdf_data_processor(input_file, namespace=namespace)
         
+        print("Initialized. ")
         # default label or key for vertex (here it is URI as sample RDF data provided has data 
         #  in the form of URI's)
         self.label = 'URI'
@@ -33,6 +37,7 @@ class database_mapper(object):
         """
         Maps RDF data to Property graph model data. 
         """
+        print("Mapping database.")
         while True:
             data = self.rdf_data_processor_.process_line()
             # check if data is None, (it is None at the end of file)
@@ -57,9 +62,14 @@ class database_mapper(object):
         
     def save_database(self, output_file_name):
         
+        print("Saving database....")
         self.graph.save_graph(output_file_name)
+        print("Database saved to " + output_file_name + ".")
 
 
+"""
+Test code
+"""
 if __name__ == "__main__":
     data_file = 'sample_data.nt'
     namespace = "http://db.uwaterloo.ca/~galuc/wsdbm/"
