@@ -1,3 +1,5 @@
 *.pyc
 *.nt
 *.txt
+*.graphml
+*.nt
