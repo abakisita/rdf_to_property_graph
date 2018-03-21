@@ -36,10 +36,10 @@ This library provides *class database_mappper* to convert ntripple files to prop
     output_file_name : File to store mapped database (a *.graphml* file e.g. output.graphml)
 
 
-## Exapmle : 
+## Exapmle: 
 
-    Use of the library can be illustrated with provided example.
+Use of the library can be illustrated with provided example.
 
-    To run exapmle script go to eaxmple directory and run following command in command line,
+To run exapmle script go to eaxmple directory and run following command in command line,
 
         python example.py
