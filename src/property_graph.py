@@ -27,7 +27,6 @@ class Property_Graph:
         """
         self.g = Graph()
         self.vertex_id = 0
-        self.edge_id = 0
 
     def add_vertex(self, label, value, property=None):
 
@@ -86,11 +85,9 @@ class Property_Graph:
         edge = self.g.add_edge(n1, n2, directed=True)
         # Add edge default property 
         edge['property'] = default_property
-        edge['id'] = str(self.edge_id)
         # Add additional property if provided
         if property != None:
             edge[property[0]] = edge[property[1]]
-        self.edge_id += 1
 
 
     def add_vertices_and_edge(self, label, label_value1, label_value2, default_edge_property,\
@@ -115,8 +112,6 @@ class Property_Graph:
         n2 = self.add_vertex(label, label_value2, vertex2_property)
         edge = self.g.add_edge(n1, n2, directed=True)
         edge['label'] = default_edge_property
-        edge['id'] = str(self.edge_id)
-        self.edge_id += 1
         if edge_property != None:
             edge[edge_property[0]] = edge[edge_property[1]]
 
