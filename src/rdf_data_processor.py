@@ -11,6 +11,7 @@ Methods:
 
 import numpy as np 
 import re
+import urlparse
 
 class rdf_data_processor:
 
@@ -48,6 +49,7 @@ class rdf_data_processor:
         found_non_URI_field = False
         # split line into words
         words = line.split()
+        index_of_non_URI_fields = []
         for i in range(len(words)):
             # remove '<' and '>'
             words[i] = re.sub("<", "", words[i])
@@ -59,19 +61,69 @@ class rdf_data_processor:
             # non-URI if length changes   
             if length != len(words[i]):
                 found_non_URI_field = True
-        
-        names = []
+                index_of_non_URI_fields.append(i)
+
+        names = [] 
+        types = []
+        # second word in the line is predicate
+        predicate = urlparse.urlparse(words[1])
+        if predicate.fragment == '':
+            path = predicate.path[::-1]
+            index = path.find('/')
+            prop = path[0:index]
+            prop = prop[::-1]
+        else:
+            prop = predicate.fragment    
         # first word in the line is subject
         subject = words[0]
-        # second word in the line is predicate
-        predicate = words[1]
         # third word in the line is object
         obj = words[2]
         # remove namespaces from subject and object to get names
-        # if namespace is not provided, names will be same as subject and object 
-        name = re.sub(self.namespace, "", subject)
-        names.append(name)
-        name = re.sub(self.namespace, "", obj)
-        names.append(name)
-        return [subject, predicate, obj], names, found_non_URI_field
+        
+        # removing namespace from subject 
+        if 0 in index_of_non_URI_fields:
+            pass
+        else:
+            subject_data = urlparse.urlparse(subject)
+            if subject_data.fragment == '':
+                path = subject_data.path[::-1]
+                index = path.find('/')
+                name = path[0:index]
+                name = name[::-1]
+                ty = ''.join(i for i in name if not i.isdigit())
+            else:
+                name = subject_data.fragment
+                ty = name
 
+        names.append(name)
+        types.append(ty)
+        # removing namespace from object 
+        
+        if 2 in index_of_non_URI_fields:
+            name = obj
+            ty = name
+            pass
+        else:
+            obejct_data = urlparse.urlparse(obj)
+            if obejct_data.fragment == '':
+                path = obejct_data.path[::-1]
+                index = path.find('/')
+                name = path[0:index]
+                name = name[::-1]
+                ty = ''.join(i for i in name if not i.isdigit())
+            else:
+                name = obejct_data.fragment
+                ty = name
+        
+        names.append(name)
+        types.append(ty)
+        return [subject, prop, obj], names, types, found_non_URI_field
+
+if __name__ == "__main__":
+    uri = "http://db.uwaterloo.ca/~galuc/wsdbm/Product10242"
+    res = urlparse.urlparse(uri)
+    path = res.path
+    path = path[::-1]
+    index = path.find('/')
+    name = path[0:index]
+    print path, index, name[::-1]
