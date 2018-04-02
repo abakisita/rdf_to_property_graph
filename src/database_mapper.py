@@ -45,12 +45,14 @@ class database_mapper(object):
                 break
             rdf_data = data[0]
             # subject and object in RDF data will be vertices in property graph model 
-            vertex1_property = [self.label, rdf_data[0]]
-            vertex2_property = [self.label, rdf_data[2]]
+            # types contain the type of subject and object e.g. country, product, offer
+            types = data[2]
+            vertex1_property = [[self.label, rdf_data[0]],['type', types[0]]]
+            vertex2_property = [[self.label, rdf_data[2]],['type', types[1]]]
             # predicate will be edge property connecting two verices
             edge_property = rdf_data[1]
             names = data[1]
-            found_non_URI_field = data[2]
+            found_non_URI_field = data[3]
             # non-URI object in rdf data will be assigned as property of subject in graph data
             # for demonstration purpose, only non-URI objects are assigned as properties
             # this situation can be extended to any type of objects, e.g. object which is a country
