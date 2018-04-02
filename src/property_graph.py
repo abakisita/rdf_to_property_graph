@@ -51,7 +51,9 @@ class Property_Graph:
         node[label] = value
         # add additional properties if provided
         if property != None:
-            node[property[0]] = property[1]
+            for i in range(len(property)):
+                prop = property[i]
+                node[prop[0]] = prop[1]
         self.vertex_id += 1
         return node
     
@@ -64,8 +66,8 @@ class Property_Graph:
         @param label_value1 : value of above label or key of source vertex
         @param label_value2 : value of above label or key of target vertex
         @param default_property : default_property of edge (predicate in RDF terms)
-        @param property : additional property, list of length 2 containing key name of property 
-            as first element and value of property as second element
+        @param property : additional properties, list of lists of length 2 containing key name of property 
+            as first element and value of property as second element e.g. [[key1, value1],[key2, value2],[key3, value3]]
         """
         n1 = None
         n2 = None
@@ -103,15 +105,15 @@ class Property_Graph:
         @param default_edge_property : default_property of edge (predicate in RDF terms)
         @param edge_property : additional property, list of length 2 containing key name of property 
             as first element and value of property as second element
-        @param vertex1_property: list of length 2 containing key name of property as first element
-            and value of property as second element
-        @param vertex2_property: list of length 2 containing key name of property as first element
-            and value of property as second element
+        @param vertex1_property: list of lists of length 2 containing key name of property as first element
+            and value of property as second element e.g. [[key1, value1],[key2, value2],[key3, value3]]
+        @param vertex2_property: list of lists of length 2 containing key name of property as first element
+            and value of property as second element e.g. [[key1, value1],[key2, value2],[key3, value3]]
         """
         n1 = self.add_vertex(label, label_value1, vertex1_property)
         n2 = self.add_vertex(label, label_value2, vertex2_property)
         edge = self.g.add_edge(n1, n2, directed=True)
-        edge['label'] = default_edge_property
+        edge['default_property'] = default_edge_property
         if edge_property != None:
             edge[edge_property[0]] = edge[edge_property[1]]
 
@@ -130,7 +132,6 @@ class Property_Graph:
             # Yet to be implemented
             pass
         else:
-
             for n in self.g._nodes:
                 if n[label] == label_value:
                     n[property[0]] = property[1]
