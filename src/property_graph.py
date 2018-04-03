@@ -113,7 +113,7 @@ class Property_Graph:
         n1 = self.add_vertex(label, label_value1, vertex1_property)
         n2 = self.add_vertex(label, label_value2, vertex2_property)
         edge = self.g.add_edge(n1, n2, directed=True)
-        edge['default_property'] = default_edge_property
+        edge['property'] = default_edge_property
         if edge_property != None:
             edge[edge_property[0]] = edge[edge_property[1]]
 
